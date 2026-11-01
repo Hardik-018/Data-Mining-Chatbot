@@ -155,8 +155,9 @@ The following resources are provided for educational purposes:
 
 ## Author
 
-**Hardik Pareek**  
-MBA Finance Student | Amity University Rajasthan
+**Hardik Pareek**
+MBA Finance & Data Science and AI
+Amity University Rajasthan
 
 GitHub: [Hardik-018](https://github.com/Hardik-018)
 
