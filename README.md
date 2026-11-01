@@ -1,5 +1,7 @@
 # AI-Powered Data Mining Chatbot
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hardik-018/Data-Mining-Chatbot/blob/main/Data_Mining_Chatbot.ipynb)
+
 An AI-powered study assistant designed to help students understand Data Mining concepts, practise numerical problems, prepare exam answers, revise important topics, and ask questions using their own course notes.
 
 Built using **Python, Google Gemini API, BM25 Information Retrieval, PDF Processing, and Gradio**.
