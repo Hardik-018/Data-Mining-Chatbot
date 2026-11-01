@@ -144,6 +144,15 @@ The `screenshots/` folder is optional. Add screenshots only if they do not expos
 - Explore additional AI model integrations.
 - Add deployment options beyond a temporary Gradio share link.
 
+## Study Resources
+
+The chatbot uses PDF-based study materials to retrieve relevant information and generate answers.
+
+The following resources are provided for educational purposes:
+
+- [Data Mining Notes – PDF 1](https://drive.google.com/file/d/10HXr0TDsLY4w_4-L_Qol4ZxEbD_YAnUL/view?usp=sharing)
+- [Data Mining Notes – PDF 2](https://drive.google.com/file/d/1mnNy6Kgv7c3avfSBk6cRGe6MB-Zc3unX/view?usp=drive_link)
+
 ## Author
 
 **Hardik Pareek**  
