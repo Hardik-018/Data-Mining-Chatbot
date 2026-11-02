@@ -1,11 +1,4 @@
 
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hardik's Data Mining Chatbot</title>
-
 <style>
 * {
     box-sizing: border-box;
@@ -24,13 +17,14 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
+    min-height: 0;
     height: 100vh;
     height: 100dvh;
 }
 
 .top {
-    flex-shrink: 0;
-    padding: 14px 4%;
+    flex: 0 0 auto;
+    padding: clamp(7px, 1.5vh, 14px) 4%;
     background: linear-gradient(120deg, #fff7ed, #ffedd5);
     border-bottom: 1px solid #fed7aa;
 }
@@ -38,83 +32,73 @@ body {
 h1 {
     margin: 0;
     color: #9a3412;
-    font-size: clamp(19px, 2.5vw, 30px);
+    font-size: clamp(17px, 2.5vw, 30px);
 }
 
 .top p {
-    margin: 5px 0 0;
+    margin: 4px 0 0;
     color: #57534e;
-    font-size: clamp(12px, 1.3vw, 15px);
+    font-size: clamp(10px, 1.2vw, 15px);
 }
 
 .wrap {
-    flex: 1;
+    flex: 1 1 auto;
     min-height: 0;
     width: 100%;
-    padding: 10px 2%;
+    padding: clamp(3px, 0.8vw, 10px);
     display: flex;
     flex-direction: column;
 }
 
 .frame {
     display: block;
-    flex: 1;
+    flex: 1 1 auto;
     min-height: 0;
     width: 100%;
     border: 1px solid #e7d5c5;
-    border-radius: 12px;
-    background: white;
+    border-radius: 10px;
+    background: #fff;
 }
 
 .notice {
-    flex-shrink: 0;
-    margin: 5px 0 0;
+    flex: 0 0 auto;
+    margin: 3px 0 0;
     text-align: center;
-    font-size: 11px;
+    font-size: clamp(9px, 0.8vw, 11px);
     color: #78716c;
 }
 
-/* Mobile screens */
 @media (max-width: 600px) {
     .top {
-        padding: 10px 14px;
+        padding: 8px 12px;
     }
 
     .wrap {
-        padding: 6px;
+        padding: 3px;
+    }
+
+    h1 {
+        font-size: 18px;
+    }
+
+    .top p {
+        font-size: 11px;
     }
 
     .frame {
-        border-radius: 8px;
+        border-radius: 5px;
+    }
+}
+
+@media (max-height: 500px) {
+    .top {
+        padding-top: 4px;
+        padding-bottom: 4px;
     }
 
+    .top p,
     .notice {
-        font-size: 10px;
+        display: none;
     }
 }
 </style>
-</head>
-
-<body>
-
-<header class="top">
-    <h1>🤖 Hardik's Data Mining Chatbot</h1>
-    <p>Your study assistant for concepts, numericals and exam preparation.</p>
-</header>
-
-<main class="wrap">
-    <iframe
-        class="frame"
-        src="https://data-mining-chatbot.onrender.com"
-        title="Data Mining Chatbot"
-        allow="clipboard-read; clipboard-write">
-    </iframe>
-
-    <div class="notice">
-        Free hosting may take around a minute to wake up after inactivity.
-        Please wait for the chatbot to load.
-    </div>
-</main>
-
-</body>
-</html>
