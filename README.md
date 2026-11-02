@@ -2,7 +2,9 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hardik-018/Data-Mining-Chatbot/blob/main/Data_Mining_Chatbot.ipynb)
 
-**Live Chatbot:** [https://data-mining-chatbot.onrender.com](https://data-mining-chatbot.onrender.com)
+🌐 **Live Chatbot:** [https://data-mining-chatbot.netlify.app](https://data-mining-chatbot.netlify.app)
+
+💻 **GitHub Repository:** [https://github.com/Hardik-018/Data-Mining-Chatbot](https://github.com/Hardik-018/Data-Mining-Chatbot)
 
 An AI-powered study assistant designed to help students understand Data Mining concepts, practise numerical problems, prepare exam answers, revise important topics, and ask questions using their own course notes.
 
@@ -24,7 +26,7 @@ Built using **Python, Google Gemini API, BM25 Information Retrieval, PDF Process
 - **Gemini API key rotation:** Supports multiple API keys configured through environment variables on Render and Google Colab Secrets in the notebook.
 - **Answer caching:** Stores recent text-question answers to reduce repeated API calls.
 - **Error logging:** Records application and API errors to help identify issues.
-- **Public chatbot access:** The application is hosted on Render and can be accessed through its public URL without opening Google Colab.
+- **Public chatbot access:** The application is publicly accessible through Netlify and does not require visitors to open Google Colab or provide their own Gemini API key.
 
 ## Technology Stack
 
@@ -37,28 +39,41 @@ Built using **Python, Google Gemini API, BM25 Information Retrieval, PDF Process
 | BM25 (`rank_bm25`) | Retrieves relevant note sections |
 | Pillow | Opens and processes uploaded question images |
 | Google Colab & Google Drive | Original notebook execution and study materials |
-| Render | Hosting and deployment of the chatbot |
+| Render | Backend hosting and deployment |
+| Netlify | Frontend hosting and public chatbot access |
 | GitHub | Source-code management and version control |
-| Netlify | Frontend landing-page hosting (planned) |
 
 ## How It Works
 
-1. The application loads the configured course-note PDFs from the `knowledge_base/` folder when running on Render. The original notebook uses Google Drive to load PDF files.
-2. PyPDF extracts readable text from the PDF pages.
-3. The extracted text is split into overlapping chunks.
-4. BM25 ranks the chunks according to their relevance to the student's question.
-5. The most relevant passages, recent conversation context, and selected study mode are sent to Gemini.
-6. Gemini generates a response, which is displayed in the Gradio chatbot.
+The project uses a hybrid deployment architecture combining Netlify and Render.
+
+### System Architecture
+
+1. Students access the chatbot through the public Netlify website.
+2. Netlify displays the Gradio chatbot hosted on Render through an embedded interface.
+3. The Render backend runs the Python application and processes user questions.
+4. PyPDF extracts readable text from the PDF course materials stored in the `knowledge_base/` folder.
+5. The extracted text is split into overlapping chunks.
+6. BM25 ranks the chunks according to their relevance to the student's question.
+7. The most relevant passages, recent conversation context, and selected study mode are sent to Gemini.
+8. Gemini generates a response, which is displayed in the Gradio chatbot interface.
 
 For **Web Answer (Internet)** mode, the backend can use Google Search through Gemini when the search tool is available. If web search fails, it falls back to a response without live search.
 
-## Run the Project on Render
+## Run the Project on Render and Netlify
 
-The chatbot is publicly deployed using Render.
+The chatbot is publicly deployed using a hybrid hosting setup.
 
-**Live Application:** [Open Data Mining Chatbot](https://data-mining-chatbot.onrender.com)
+**Live Application:** [Open Data Mining AI Chatbot](https://data-mining-chatbot.netlify.app)
 
-Users can access the chatbot directly through this link without opening the author's Google Colab notebook or Google Drive.
+### Deployment Architecture
+
+| Platform | Responsibility |
+|---|---|
+| Netlify | Hosts the public landing page and embeds the chatbot |
+| Render | Runs the Python backend and Gradio application |
+| GitHub | Stores the project source code and deployment files |
+| Google Gemini API | Generates AI-powered responses |
 
 ### Important Deployment Notes
 
@@ -66,8 +81,10 @@ Users can access the chatbot directly through this link without opening the auth
 - Dependencies are installed using `requirements.txt`.
 - Gemini API keys are configured through Render's Environment Variables section.
 - Course-note PDFs are stored in the `knowledge_base/` folder.
-- The application uses Gradio to provide the interactive chatbot interface.
+- Gradio provides the interactive chatbot interface.
+- Netlify displays the chatbot directly without requiring visitors to access Render separately.
 - Render automatically deploys the application when changes are committed to the connected GitHub branch.
+- Netlify automatically deploys the frontend when changes are committed to its connected GitHub repository.
 
 **Free Hosting Limitation:** The Render free instance may spin down after periods of inactivity. The first request after inactivity can take approximately 50 seconds or longer to respond.
 
@@ -98,7 +115,9 @@ This project requires a Gemini API key.
 
 The application also supports additional keys named `GEMINI_KEY_2`, `GEMINI_KEY_3`, and so on, if you choose to configure multiple keys.
 
-**Every user must provide and manage their own Gemini API key.** The author's API keys are not included in this repository.
+**Every user running the project independently must provide and manage their own Gemini API key.** The author's API keys are not included in this repository.
+
+Visitors using the publicly hosted chatbot do not need to provide their own API key.
 
 Gemini API usage is subject to Google's quotas, pricing, and terms.
 
@@ -197,6 +216,7 @@ The launch cell uses Gradio sharing to provide a temporary link to the running a
 - The deployed application runs independently of Google Colab.
 - The Render free instance may spin down after inactivity, resulting in a wake-up delay.
 - The original notebook continues to support Google Colab and Google Drive as an alternative execution method.
+- The public chatbot can be accessed through the Netlify website, while the backend is hosted separately on Render.
 
 ## Repository Structure
 
@@ -219,7 +239,7 @@ Data-Mining-Chatbot/
 └── requirements.txt
 ```
 
-The `knowledge_base/` folder contains the course-note PDFs used by the deployed chatbot. The `netlify/` folder contains the landing-page frontend files.
+The `knowledge_base/` folder contains the course-note PDFs used by the deployed chatbot. The `netlify/` folder contains the frontend landing page hosted on Netlify.
 
 ## Security and Privacy
 
@@ -236,9 +256,8 @@ The `knowledge_base/` folder contains the course-note PDFs used by the deployed 
 - Add OCR support for scanned PDFs.
 - Improve retrieval accuracy and evaluate answer quality.
 - Explore additional AI model integrations.
-- Improve the chatbot's user interface and mobile responsiveness.
-- Develop a professional landing page using Netlify.
 - Add more course materials and study resources.
+- Improve response evaluation and reliability.
 
 ## Study Resources
 
