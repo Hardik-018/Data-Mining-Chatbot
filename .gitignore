@@ -1,30 +1,8 @@
-# Secrets and environment variables
 .env
 .env.*
 !.env.example
-*.key
-secrets/
-
-# Private data and documents
-*.pdf
-*.log
-*.csv
-*.xlsx
-
-# Python generated files
 __pycache__/
 *.py[cod]
-*$py.class
-.pytest_cache/
-.mypy_cache/
-
-# Jupyter generated files
+*.log
 .ipynb_checkpoints/
-
-# Operating system files
 .DS_Store
-Thumbs.db
-
-# Editor and IDE settings
-.vscode/
-.idea/
