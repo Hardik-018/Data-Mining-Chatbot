@@ -1,104 +1,138 @@
 
-<style>
-* {
-    box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Mining AI Study Assistant</title>
 
-html, body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    font-family: Inter, Arial, sans-serif;
-    background: #fffaf5;
-    color: #292524;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    height: 100vh;
-    height: 100dvh;
-}
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: Inter, Arial, sans-serif;
+            background: #fffaf5;
+            color: #292524;
+        }
 
-.top {
-    flex: 0 0 auto;
-    padding: clamp(7px, 1.5vh, 14px) 4%;
-    background: linear-gradient(120deg, #fff7ed, #ffedd5);
-    border-bottom: 1px solid #fed7aa;
-}
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            height: 100vh;
+            height: 100dvh;
+        }
 
-h1 {
-    margin: 0;
-    color: #9a3412;
-    font-size: clamp(17px, 2.5vw, 30px);
-}
+        .top {
+            flex: 0 0 auto;
+            padding: clamp(7px, 1.5vh, 14px) 4%;
+            background: linear-gradient(120deg, #fff7ed, #ffedd5);
+            border-bottom: 1px solid #fed7aa;
+        }
 
-.top p {
-    margin: 4px 0 0;
-    color: #57534e;
-    font-size: clamp(10px, 1.2vw, 15px);
-}
+        h1 {
+            margin: 0;
+            color: #9a3412;
+            font-size: clamp(17px, 2.5vw, 30px);
+        }
 
-.wrap {
-    flex: 1 1 auto;
-    min-height: 0;
-    width: 100%;
-    padding: clamp(3px, 0.8vw, 10px);
-    display: flex;
-    flex-direction: column;
-}
+        .top p {
+            margin: 4px 0 0;
+            color: #57534e;
+            font-size: clamp(10px, 1.2vw, 15px);
+        }
 
-.frame {
-    display: block;
-    flex: 1 1 auto;
-    min-height: 0;
-    width: 100%;
-    border: 1px solid #e7d5c5;
-    border-radius: 10px;
-    background: #fff;
-}
+        .wrap {
+            flex: 1 1 auto;
+            min-height: 0;
+            width: 100%;
+            padding: clamp(3px, 0.8vw, 10px);
+            display: flex;
+            flex-direction: column;
+        }
 
-.notice {
-    flex: 0 0 auto;
-    margin: 3px 0 0;
-    text-align: center;
-    font-size: clamp(9px, 0.8vw, 11px);
-    color: #78716c;
-}
+        .frame {
+            display: block;
+            flex: 1 1 auto;
+            min-height: 0;
+            width: 100%;
+            border: 1px solid #e7d5c5;
+            border-radius: 10px;
+            background: #fff;
+        }
 
-@media (max-width: 600px) {
-    .top {
-        padding: 8px 12px;
-    }
+        .notice {
+            flex: 0 0 auto;
+            margin: 3px 0 0;
+            text-align: center;
+            font-size: clamp(9px, 0.8vw, 11px);
+            color: #78716c;
+        }
 
-    .wrap {
-        padding: 3px;
-    }
+        @media (max-width: 600px) {
+            .top {
+                padding: 8px 12px;
+            }
 
-    h1 {
-        font-size: 18px;
-    }
+            .wrap {
+                padding: 3px;
+            }
 
-    .top p {
-        font-size: 11px;
-    }
+            h1 {
+                font-size: 18px;
+            }
 
-    .frame {
-        border-radius: 5px;
-    }
-}
+            .top p {
+                font-size: 11px;
+            }
 
-@media (max-height: 500px) {
-    .top {
-        padding-top: 4px;
-        padding-bottom: 4px;
-    }
+            .frame {
+                border-radius: 5px;
+            }
+        }
 
-    .top p,
-    .notice {
-        display: none;
-    }
-}
-</style>
+        @media (max-height: 500px) {
+            .top {
+                padding-top: 4px;
+                padding-bottom: 4px;
+            }
+
+            .top p,
+            .notice {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="top">
+        <h1>📚 Data Mining AI Study Assistant</h1>
+        <p>Your personal AI-powered assistant for learning Data Mining, preparing for exams, and solving questions.</p>
+    </header>
+
+    <main class="wrap">
+
+        <iframe
+            class="frame"
+            src="https://data-mining-chatbot.onrender.com"
+            title="Data Mining AI Chatbot"
+            allow="clipboard-read; clipboard-write"
+            loading="eager">
+        </iframe>
+
+        <p class="notice">
+            Note: The free hosting service may take around 50 seconds or more to wake up after inactivity.
+        </p>
+
+    </main>
+
+</body>
+</html>
