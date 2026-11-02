@@ -644,9 +644,8 @@ with gr.Blocks(
 
     # Removed type="messages" for compatibility
     chatbot = gr.Chatbot(
-        height=460,
-        label="Chatbot",
-        type="messages"
+    height=460,
+    label="Chatbot"
     )
 
     image_input = gr.Image(
