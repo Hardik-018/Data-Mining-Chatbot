@@ -2,6 +2,8 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hardik-018/Data-Mining-Chatbot/blob/main/Data_Mining_Chatbot.ipynb)
 
+**Live Chatbot:** [https://data-mining-chatbot.onrender.com](https://data-mining-chatbot.onrender.com)
+
 An AI-powered study assistant designed to help students understand Data Mining concepts, practise numerical problems, prepare exam answers, revise important topics, and ask questions using their own course notes.
 
 Built using **Python, Google Gemini API, BM25 Information Retrieval, PDF Processing, and Gradio**.
@@ -19,9 +21,10 @@ Built using **Python, Google Gemini API, BM25 Information Retrieval, PDF Process
   - Web Answer (Internet)
 - **Image-based questions:** Upload an image containing a question, formula, table, or diagram.
 - **Conversation context:** Uses recent chat history to support follow-up questions.
-- **Gemini API key rotation:** Supports multiple API keys stored in Google Colab Secrets and rotates between available keys when quota errors occur.
+- **Gemini API key rotation:** Supports multiple API keys configured through environment variables on Render and Google Colab Secrets in the notebook.
 - **Answer caching:** Stores recent text-question answers to reduce repeated API calls.
-- **Error logging:** Records application and API errors in a log file in Google Drive.
+- **Error logging:** Records application and API errors to help identify issues.
+- **Public chatbot access:** The application is hosted on Render and can be accessed through its public URL without opening Google Colab.
 
 ## Technology Stack
 
@@ -33,11 +36,14 @@ Built using **Python, Google Gemini API, BM25 Information Retrieval, PDF Process
 | PyPDF | Extracts text from PDF course notes |
 | BM25 (`rank_bm25`) | Retrieves relevant note sections |
 | Pillow | Opens and processes uploaded question images |
-| Google Colab & Google Drive | Notebook execution, secrets, notes, and log storage |
+| Google Colab & Google Drive | Original notebook execution and study materials |
+| Render | Hosting and deployment of the chatbot |
+| GitHub | Source-code management and version control |
+| Netlify | Frontend landing-page hosting (planned) |
 
 ## How It Works
 
-1. The notebook connects to the user's Google Drive and loads the configured course-note PDFs.
+1. The application loads the configured course-note PDFs from the `knowledge_base/` folder when running on Render. The original notebook uses Google Drive to load PDF files.
 2. PyPDF extracts readable text from the PDF pages.
 3. The extracted text is split into overlapping chunks.
 4. BM25 ranks the chunks according to their relevance to the student's question.
@@ -46,7 +52,83 @@ Built using **Python, Google Gemini API, BM25 Information Retrieval, PDF Process
 
 For **Web Answer (Internet)** mode, the backend can use Google Search through Gemini when the search tool is available. If web search fails, it falls back to a response without live search.
 
+## Run the Project on Render
+
+The chatbot is publicly deployed using Render.
+
+**Live Application:** [Open Data Mining Chatbot](https://data-mining-chatbot.onrender.com)
+
+Users can access the chatbot directly through this link without opening the author's Google Colab notebook or Google Drive.
+
+### Important Deployment Notes
+
+- The application runs using the Python backend in `app.py`.
+- Dependencies are installed using `requirements.txt`.
+- Gemini API keys are configured through Render's Environment Variables section.
+- Course-note PDFs are stored in the `knowledge_base/` folder.
+- The application uses Gradio to provide the interactive chatbot interface.
+- Render automatically deploys the application when changes are committed to the connected GitHub branch.
+
+**Free Hosting Limitation:** The Render free instance may spin down after periods of inactivity. The first request after inactivity can take approximately 50 seconds or longer to respond.
+
+## Run the Project Locally
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Hardik-018/Data-Mining-Chatbot.git
+cd Data-Mining-Chatbot
+```
+
+### 2. Install dependencies
+
+Run the following command:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Configure your own Gemini API key
+
+This project requires a Gemini API key.
+
+1. Obtain your API key through [Google AI Studio](https://aistudio.google.com/apikey).
+2. Configure an environment variable named `GEMINI_KEY_1`.
+3. Add your API key as its value.
+
+The application also supports additional keys named `GEMINI_KEY_2`, `GEMINI_KEY_3`, and so on, if you choose to configure multiple keys.
+
+**Every user must provide and manage their own Gemini API key.** The author's API keys are not included in this repository.
+
+Gemini API usage is subject to Google's quotas, pricing, and terms.
+
+Never paste API keys directly into the Python code or commit them to GitHub.
+
+### 4. Add PDF notes
+
+Place your readable PDF course materials inside the following folder:
+
+```text
+knowledge_base/
+├── data_mining_notes.pdf
+└── data_mining_Notes (1).pdf
+```
+
+You can add your own PDF files to this folder. The retrieval pipeline expects readable/selectable PDF text. Scanned PDFs may not work correctly because OCR is not included.
+
+### 5. Run the chatbot
+
+Run the following command:
+
+```bash
+python app.py
+```
+
+The Gradio application will start and provide a local URL through which you can access the chatbot.
+
 ## Run the Project in Google Colab
+
+The original notebook is also available for users who want to explore the project or run it independently.
 
 ### 1. Open the notebook
 
@@ -71,7 +153,7 @@ This project requires a Gemini API key.
 
 The notebook also supports additional secrets named `GEMINI_KEY_2`, `GEMINI_KEY_3`, and so on, up to `GEMINI_KEY_9`, if you choose to configure multiple keys. It also supports the older single-secret name `GEMINI_API_KEY`.
 
-**Every user must provide and manage their own Gemini API key. The author's API keys are not included in this repository and are not shared with people who download the notebook.** Gemini API usage is subject to Google's quotas, pricing, and terms.
+**Every user must provide and manage their own Gemini API key.** The author's API keys are not included in this repository and are not shared with people who download the notebook.
 
 Never paste API keys directly into the notebook or commit them to GitHub.
 
@@ -108,33 +190,45 @@ The launch cell uses Gradio sharing to provide a temporary link to the running a
 
 ## Configuration Notes and Limitations
 
-- The notebook uses the Gemini model configured in its backend cell.
-- Answer length, request timeout, API-key cooldown, retrieved PDF passages, conversation history, and answer-cache size are configured in the notebook.
+- The application uses the Gemini model configured in its backend code.
+- Answer length, request timeout, API-key cooldown, retrieved PDF passages, conversation history, and answer-cache size are configured in the application.
 - Gemini availability, quotas, and usage limits depend on the user's account and Google's current policies.
-- The current PDF retrieval pipeline expects readable PDF text; OCR for scanned documents is not included.
-- The project is designed to run in Google Colab with Google Drive and a user-provided Gemini API key. It is not a permanently hosted service.
+- The PDF retrieval pipeline expects readable PDF text; OCR for scanned documents is not included.
+- The deployed application runs independently of Google Colab.
+- The Render free instance may spin down after inactivity, resulting in a wake-up delay.
+- The original notebook continues to support Google Colab and Google Drive as an alternative execution method.
 
 ## Repository Structure
 
 ```text
 Data-Mining-Chatbot/
+├── knowledge_base/
+│   ├── data_mining_notes.pdf
+│   └── data_mining_Notes (1).pdf
+│
+├── netlify/
+│   └── index.html
+│
+├── .env.example
+├── .gitignore
 ├── Data_Mining_Chatbot.ipynb
 ├── README.md
-├── requirements.txt
-├── .gitignore
-└── screenshots/
-    └── chatbot_interface.png
+├── README_DEPLOYMENT.md
+├── app.py
+├── render.yaml
+└── requirements.txt
 ```
 
-The `screenshots/` folder is optional. Add screenshots only if they do not expose API keys, private files, personal information, or active session links.
+The `knowledge_base/` folder contains the course-note PDFs used by the deployed chatbot. The `netlify/` folder contains the landing-page frontend files.
 
 ## Security and Privacy
 
-- Store Gemini API keys in Google Colab Secrets.
+- Store Gemini API keys in Render Environment Variables or Google Colab Secrets.
 - Do not commit API keys, passwords, private logs, or personal information.
 - Do not upload course PDFs or copyrighted material unless you have permission to share them.
-- Users should connect only their own Google Drive and use documents they are authorized to access.
-- A public Gradio share link may be accessible to anyone who has the link while it is active. Stop the session when it is no longer needed.
+- Users running the notebook independently should connect their own Google Drive and use documents they are authorized to access.
+- The public chatbot link may be accessed by anyone who has the URL.
+- Do not enter confidential or sensitive information into a publicly accessible chatbot.
 - Clear notebook outputs before publishing if they contain file paths, logs, credentials, personal information, or temporary share links.
 
 ## Future Enhancements
@@ -142,7 +236,9 @@ The `screenshots/` folder is optional. Add screenshots only if they do not expos
 - Add OCR support for scanned PDFs.
 - Improve retrieval accuracy and evaluate answer quality.
 - Explore additional AI model integrations.
-- Add deployment options beyond a temporary Gradio share link.
+- Improve the chatbot's user interface and mobile responsiveness.
+- Develop a professional landing page using Netlify.
+- Add more course materials and study resources.
 
 ## Study Resources
 
@@ -155,8 +251,8 @@ The following resources are provided for educational purposes:
 
 ## Author
 
-**Hardik Pareek**
-MBA Finance & Data Science and AI
+**Hardik Pareek**  
+MBA Finance & Data Science and AI  
 Amity University Rajasthan
 
 GitHub: [Hardik-018](https://github.com/Hardik-018)
