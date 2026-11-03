@@ -17,29 +17,275 @@
             height: 100%;
             overflow: hidden;
             background: #0f0e0d;
+            font-family: Arial, sans-serif;
         }
 
+        /* Loading screen */
+        #loading-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+            background: #0f0e0d;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            transition: opacity 0.7s ease, visibility 0.7s ease;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loading-content {
+            width: 100%;
+            max-width: 650px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 15px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #a78bfa;
+            margin-bottom: 35px;
+        }
+
+        .loader {
+            width: 58px;
+            height: 58px;
+            border: 4px solid #33302e;
+            border-top: 4px solid #a78bfa;
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-title {
+            font-size: clamp(23px, 5vw, 34px);
+            margin: 0 0 12px;
+        }
+
+        .loading-subtitle {
+            color: #aaa5a0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .fact-card {
+            margin-top: 35px;
+            padding: 25px;
+            background: #191715;
+            border: 1px solid #39332f;
+            border-radius: 16px;
+            min-height: 190px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .fact-label {
+            color: #a78bfa;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        #fact-title {
+            font-size: 21px;
+            margin: 0 0 12px;
+        }
+
+        #fact-text {
+            color: #c2bdb7;
+            font-size: 15px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .waiting-message {
+            color: #88817b;
+            font-size: 12px;
+            margin-top: 25px;
+        }
+
+        .dots::after {
+            content: "";
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0% { content: ""; }
+            25% { content: "."; }
+            50% { content: ".."; }
+            75% { content: "..."; }
+        }
+
+        /* Chatbot iframe */
         .chatbot-frame {
             display: block;
+            position: fixed;
+            inset: 0;
             width: 100%;
             height: 100%;
             height: 100dvh;
             border: none;
-            margin: 0;
-            padding: 0;
+            opacity: 0;
+            transition: opacity 0.7s ease;
+        }
+
+        .chatbot-frame.ready {
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            .fact-card {
+                padding: 20px;
+                min-height: 210px;
+            }
+
+            #fact-title {
+                font-size: 19px;
+            }
+
+            #fact-text {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 
 <body>
 
+    <!-- Animated Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+
+            <div class="logo">DATA MINING KNOWLEDGE HUB</div>
+
+            <div class="loader"></div>
+
+            <h1 class="loading-title">
+                Your AI Assistant is Waking Up
+            </h1>
+
+            <p class="loading-subtitle">
+                Preparing your Data Mining learning experience
+                <span class="dots"></span>
+            </p>
+
+            <div class="fact-card">
+                <div class="fact-label">DID YOU KNOW?</div>
+                <h2 id="fact-title">Data Mining in Everyday Life</h2>
+                <p id="fact-text">
+                    Recommendation systems analyse your interests
+                    to suggest movies, products and content you may like.
+                </p>
+            </div>
+
+            <p class="waiting-message">
+                Your chatbot will appear automatically when ready.
+                Thanks for your patience!
+            </p>
+
+        </div>
+    </div>
+
+    <!-- Actual Chatbot -->
     <iframe
         class="chatbot-frame"
+        id="chatbot-frame"
         src="https://data-mining-chatbot.onrender.com"
         title="Hardik's Data Mining Chatbot"
         allow="clipboard-read; clipboard-write"
         loading="eager">
     </iframe>
+
+    <script>
+        const facts = [
+            {
+                title: "Netflix & Entertainment",
+                text: "Streaming platforms analyse your viewing history to recommend movies and shows based on your interests."
+            },
+            {
+                title: "Banking & Fraud Detection",
+                text: "Banks use data mining to identify unusual transaction patterns and detect potentially fraudulent activity."
+            },
+            {
+                title: "Online Shopping",
+                text: "Shopping platforms analyse customer behaviour to recommend products you might be interested in."
+            },
+            {
+                title: "Healthcare",
+                text: "Data mining helps researchers discover patterns in medical data and support healthcare decisions."
+            },
+            {
+                title: "Social Media",
+                text: "Social platforms analyse engagement and interests to personalise the content shown in your feed."
+            },
+            {
+                title: "Retail & Business",
+                text: "Businesses use historical sales data to understand customer demand and plan their inventory."
+            },
+            {
+                title: "Education",
+                text: "Educational institutions can analyse student performance to identify learning patterns and areas for improvement."
+            }
+        ];
+
+        let currentFact = 0;
+
+        const factTitle = document.getElementById("fact-title");
+        const factText = document.getElementById("fact-text");
+
+        // Rotate facts every 5 seconds
+        setInterval(() => {
+            currentFact = (currentFact + 1) % facts.length;
+
+            const card = document.querySelector(".fact-card");
+            card.style.animation = "none";
+            void card.offsetWidth;
+            card.style.animation = "fadeIn 0.6s ease";
+
+            factTitle.textContent = facts[currentFact].title;
+            factText.textContent = facts[currentFact].text;
+
+        }, 5000);
+
+        // Show chatbot after the Render page finishes loading
+        const chatbot = document.getElementById("chatbot-frame");
+        const loadingScreen = document.getElementById("loading-screen");
+
+        chatbot.addEventListener("load", () => {
+            chatbot.classList.add("ready");
+
+            loadingScreen.classList.add("hidden");
+
+            setTimeout(() => {
+                loadingScreen.style.display = "none";
+            }, 800);
+        });
+    </script>
 
 </body>
 </html>
